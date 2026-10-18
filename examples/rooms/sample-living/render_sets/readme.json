@@ -1,0 +1,27 @@
+[
+  {
+    "layout": "as-scanned",
+    "lighting": "sunny-morning,evening",
+    "views": "fireplace,reading_corner",
+    "tag": "readme-today",
+    "samples": 128,
+    "res": "1600x1000"
+  },
+  {
+    "layout": "proposal",
+    "lighting": "sunny-morning,evening",
+    "tag": "readme-proposal",
+    "meterLayout": "as-scanned",
+    "samples": 128,
+    "res": "1600x1000"
+  },
+  {
+    "layout": "floor-seating",
+    "lighting": "sunny-morning,evening",
+    "views": "fireplace,toward_windows,reading_corner",
+    "tag": "readme-floor",
+    "meterLayout": "as-scanned",
+    "samples": 128,
+    "res": "1600x1000"
+  }
+]

@@ -1,0 +1,14 @@
+__pycache__/
+.DS_Store
+*.pyc
+rooms/*/renders/photoreal/scratch*/
+.claude/worktrees/
+.venv/
+.ruff_cache/
+.pytest_cache/
+rooms/*/renders/_smoke/
+rooms/*/renders/photoreal/_smoke/
+dist/
+rooms/*/report/*.pdf
+# the sample household's outputs (regenerate them; the public repo ships none)
+examples/rooms/*/renders/

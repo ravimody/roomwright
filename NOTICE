@@ -1,0 +1,12 @@
+Roomwright
+Copyright 2026 Ravi Mody
+
+roomwright includes third-party material:
+
+- three.js r170 (editor/vendor/three@0.170.0): MIT License, Copyright 2010-2024 three.js authors. See editor/vendor/three@0.170.0/LICENSE.
+- Poly Haven assets (https://polyhaven.com), CC0 1.0 (public domain):
+  - textures in shared/pbr/: laminate_floor_02
+  - the sample household's plant model, examples/models/potted_plant_02.glb (converted with tools/model_import.py)
+
+The sample household in examples/ is made up: its room, furniture and stand-in scan (generated from the room's own
+model with tools/fake_scan.py) show no real home. Licensed with the rest of roomwright.

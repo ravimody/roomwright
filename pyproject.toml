@@ -1,0 +1,85 @@
+[project]
+name = "roomwright"
+dynamic = ["version"]
+description = "Phone scan to measured room model, layouts, photoreal renders and reports, driven by a coding agent"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.11"
+dependencies = []  # the CLI is stdlib only; each tool declares its own dependencies (PEP 723) and runs with `uv run`
+
+[project.scripts]
+roomwright = "roomwright.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "roomwright/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["roomwright"]
+exclude = ["**/__pycache__", "**/.DS_Store"]
+
+[tool.hatch.build.targets.wheel.force-include]
+# the engine ships inside the package with the same relative layout, so tools find shared/, schema/ and editor/ as in the repo
+"tools" = "roomwright/tools"
+"editor" = "roomwright/editor"
+"shared" = "roomwright/shared"
+"schema" = "roomwright/schema"
+"server.py" = "roomwright/server.py"
+"rooms/_template" = "roomwright/rooms/_template"
+"docs" = "roomwright/docs"
+"AGENTS.md" = "roomwright/AGENTS.md"
+"ARCHITECTURE.md" = "roomwright/ARCHITECTURE.md"
+"COOKBOOK.md" = "roomwright/COOKBOOK.md"
+# the made-up sample household (`roomwright demo`): its data only (force-include ignores excludes, so no renders/)
+"examples/catalog.json" = "roomwright/examples/catalog.json"
+"examples/HOUSEHOLD.example.md" = "roomwright/examples/HOUSEHOLD.example.md"
+"examples/models" = "roomwright/examples/models"
+"examples/rooms/sample-living/room.json" = "roomwright/examples/rooms/sample-living/room.json"
+"examples/rooms/sample-living/README.md" = "roomwright/examples/rooms/sample-living/README.md"
+"examples/rooms/sample-living/layouts" = "roomwright/examples/rooms/sample-living/layouts"
+"examples/rooms/sample-living/render_sets" = "roomwright/examples/rooms/sample-living/render_sets"
+"examples/rooms/sample-living/scan" = "roomwright/examples/rooms/sample-living/scan"
+
+[tool.hatch.build.targets.sdist]
+only-include = ["roomwright", "tools", "editor", "shared", "schema", "server.py", "rooms/_template", "docs", "AGENTS.md", "ARCHITECTURE.md", "COOKBOOK.md", "examples", "README.md", "pyproject.toml", "LICENSE", "NOTICE"]
+
+[dependency-groups]
+dev = ["pytest>=8", "jsonschema>=4.18", "ruff>=0.6"]
+
+[tool.uv]
+package = true
+
+[tool.ruff]
+line-length = 160
+target-version = "py311"
+extend-exclude = ["rooms", ".claude"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "PIE", "C4", "PLE", "PLW"]
+ignore = [
+  "E501",    # long lines: dense geometry tables read better on one line
+  "E701", "E702", "E731",  # compact one-line statements are the house style in tools/
+  "E741",    # l/I/O names are used for lengths and indices in geometry code
+  "RUF001", "RUF002", "RUF003",  # × ° – in strings and comments are intentional
+  "PLW2901", # reassigning loop variables while normalising input
+  "SIM108",  # ternaries are not always clearer
+  "B905",    # zip() without strict=: lengths are equal by construction
+  "C408", "RUF005",  # dict()/list concatenation read fine
+  "PLW0603", # module-level state in single-file scripts
+  "B023",    # closures over loop variables are called within the same iteration (wall builders)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["roomframe", "blender_models", "blender_scene", "photometry"]
+# bpy must be imported before bmesh/mathutils (bpy 4.5 raises ModuleNotFoundError otherwise)
+section-order = ["future", "standard-library", "guard", "blender", "third-party", "first-party", "local-folder"]
+
+[tool.ruff.lint.isort.sections]
+guard = ["sandbox_guard"]  # must run before bpy loads (tools/sandbox_guard.py)
+blender = ["bpy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Layout editor</title>
+  <link rel="stylesheet" href="src/style.css">
+  <!-- three.js r170 vendored in vendor/three@0.170.0 (pinned, works offline; checksums in SHA256SUMS) -->
+  <script type="importmap">
+    { "imports": {
+      "three": "./vendor/three@0.170.0/build/three.module.js",
+      "three/addons/": "./vendor/three@0.170.0/examples/jsm/"
+    } }
+  </script>
+</head>
+<body>
+  <aside id="sidebar">
+    <section>
+      <div class="row">
+        <select id="layout" title="Layout"></select>
+        <span id="dirty"></span>
+      </div>
+      <p id="layout-desc" class="muted small"></p>
+      <div class="row">
+        <button id="save" title="Cmd/Ctrl+S">Save</button>
+        <button id="save-as">Save as…</button>
+        <button id="undo" title="Cmd/Ctrl+Z">Undo</button>
+        <button id="redo" title="Cmd/Ctrl+Shift+Z">Redo</button>
+      </div>
+    </section>
+    <section>
+      <h3>View</h3>
+      <div class="row seg">
+        <button data-view="3d">3D</button>
+        <button data-view="plan">Plan</button>
+      </div>
+      <div class="toggles">
+        <label><input type="checkbox" id="show-clearance"> Clearance zones</label>
+        <label><input type="checkbox" id="show-labels"> Labels</label>
+        <label><input type="checkbox" id="show-grid"> 0.5 m grid</label>
+        <label><input type="checkbox" id="show-ceiling"> Ceiling heights</label>
+        <label><input type="checkbox" id="show-scan"> Original scan</label>
+        <label class="indent">opacity <input type="range" id="scan-opacity" min="0.1" max="1" step="0.05" value="0.5"></label>
+      </div>
+    </section>
+    <section>
+      <h3>Add</h3>
+      <div class="row"><select id="add-type"></select><button id="add-btn">Add</button></div>
+    </section>
+    <section>
+      <h3>Selected</h3>
+      <div id="props"></div>
+    </section>
+    <section>
+      <h3>Checks <span id="issue-count" class="muted"></span></h3>
+      <ul id="issues"></ul>
+    </section>
+    <section class="grow">
+      <h3>Items</h3>
+      <ul id="items"></ul>
+    </section>
+    <footer class="muted small">
+      Drag to move (Alt = no snapping) · R / Shift+R rotate 90° · [ ] rotate 15° · arrows nudge 1 cm (Shift 10 cm) · Cmd+D duplicate · Del delete · V switch view
+    </footer>
+  </aside>
+  <main id="viewport">
+    <div id="hud"><span id="cursor"></span><span id="status"></span></div>
+  </main>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

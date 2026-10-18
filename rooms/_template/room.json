@@ -1,0 +1,93 @@
+{
+  "name": "<Room name>",
+  "units": "meters",
+  "style": {
+    "summary": "<this room's style in the person's words, e.g. bright Japandi with floor seating, or maximalist with collected art>",
+    "palette": "",
+    "references": []
+  },
+  "sourcing": {
+    "furniture": "new",
+    "practical": "new",
+    "note": "furniture/practical: new | secondhand | vintage-antique | custom | existing | mix (ask the person)"
+  },
+  "frame": "Origin at the plan-SW interior corner. x = plan east, y = plan north (labels: true north is site.northDeg), z = up. Plan rotation: rot 0 = item front faces plan south (-y), 90 = east, 180 = north, 270 = west.",
+  "scan": {
+    "file": "scan/scan_raw.glb",
+    "rotationYDeg": 0,
+    "position": [
+      0,
+      0,
+      0
+    ],
+    "alignedOrigin": [
+      0,
+      0
+    ],
+    "note": "Fill from tools/align_and_render.py output (GLTF_TRANSFORM) and the measured SW corner."
+  },
+  "outline": [
+    [
+      0,
+      0
+    ],
+    [
+      4,
+      0
+    ],
+    [
+      4,
+      3
+    ],
+    [
+      0,
+      3
+    ]
+  ],
+  "wallHeight": 2.4,
+  "wallThickness": 0.12,
+  "ceiling": {
+    "top": 2.4,
+    "downstands": []
+  },
+  "doors": [],
+  "windows": [],
+  "fixtures": [],
+  "rules": [],
+  "cameras": {},
+  "materials": {
+    "wall": {
+      "hex": "#EDEAE3",
+      "roughness": 0.6,
+      "note": "paint brand + code + sheen; replace the hex with the paint's"
+    },
+    "ceiling": {
+      "hex": "#F4F3EF",
+      "roughness": 0.9
+    },
+    "trim": {
+      "hex": "#F2F1EC",
+      "roughness": 0.35
+    },
+    "baseboard": {
+      "hex": "#F2F1EC",
+      "roughness": 0.35
+    },
+    "floor": {
+      "texture": "none",
+      "hex": "#a99d8c",
+      "roughness": 0.5,
+      "note": "Ask what the floor is. Wood: \"texture\": \"laminate_floor_02\" with the floor's average colour as hex; tile, stone, terrazzo, concrete, carpet or tatami: \"texture\": \"none\" with its colour as hex."
+    }
+  },
+  "scenes": {
+    "day": {
+      "base": "day",
+      "label": "Daylight only"
+    },
+    "night": {
+      "base": "night",
+      "label": "Night with the lights on: replace with the scenes this household uses (ask how the room is lit after dark)"
+    }
+  }
+}

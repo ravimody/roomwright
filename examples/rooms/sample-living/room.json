@@ -1,0 +1,422 @@
+{
+  "name": "Sample living room (made up)",
+  "units": "meters",
+  "style": {
+    "summary": "Relaxed transitional: warm greige walls, white trim, oak floor, linen and walnut",
+    "palette": "greige, white, oak, slate blue",
+    "references": []
+  },
+  "sourcing": {
+    "furniture": "new",
+    "practical": "new"
+  },
+  "frame": "Origin at SW interior corner. x = east, y = north, z = up. Plan rotation: rot 0 = item front faces south (-y), 90 = east, 180 = north, 270 = west.",
+  "scan": {
+    "file": "scan/scan_raw.glb",
+    "rotationYDeg": -12.05,
+    "position": [
+      -1.1029,
+      1.1515,
+      -0.9251
+    ],
+    "alignedOrigin": [
+      0.093,
+      0.098
+    ],
+    "note": "From tools/align_and_render.py and tools/map_room.py on the stand-in scan, then the origin moved (+2, +5.8 cm) to the west and south wall faces measured in the scan (the window casings and sills put map_room's south wall a few cm outside the real face). See scan/README.md."
+  },
+  "outline": [
+    [
+      0,
+      0
+    ],
+    [
+      5.4,
+      0
+    ],
+    [
+      5.4,
+      4.2
+    ],
+    [
+      3.3,
+      4.2
+    ],
+    [
+      3.3,
+      3.8
+    ],
+    [
+      2.1,
+      3.8
+    ],
+    [
+      2.1,
+      4.2
+    ],
+    [
+      0,
+      4.2
+    ]
+  ],
+  "wallHeight": 2.6,
+  "wallThickness": 0.12,
+  "ceiling": {
+    "top": 2.6,
+    "downstands": [
+      {
+        "name": "Beam",
+        "rect": [
+          0,
+          1.9,
+          5.4,
+          2.15
+        ],
+        "z": 2.38
+      }
+    ],
+    "note": "Flat 2.60 m with one cased beam across the room at 2.38 m."
+  },
+  "doors": [
+    {
+      "id": "door-hall",
+      "name": "Hall door",
+      "a": [
+        0,
+        0.45
+      ],
+      "b": [
+        0,
+        1.3
+      ],
+      "height": 2.03,
+      "swing": "in",
+      "hinge": "a"
+    },
+    {
+      "id": "open-dining",
+      "name": "Cased opening to the dining room",
+      "a": [
+        5.4,
+        2.55
+      ],
+      "b": [
+        5.4,
+        3.6
+      ],
+      "height": 2.1,
+      "style": "opening",
+      "swing": "out"
+    }
+  ],
+  "windows": [
+    {
+      "id": "win-sw",
+      "name": "South window (west)",
+      "a": [
+        0.85,
+        0
+      ],
+      "b": [
+        1.95,
+        0
+      ],
+      "z0": 0.5,
+      "z1": 2.15,
+      "grid": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "win-se",
+      "name": "South window (east)",
+      "a": [
+        3.45,
+        0
+      ],
+      "b": [
+        4.55,
+        0
+      ],
+      "z0": 0.5,
+      "z1": 2.15,
+      "grid": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "win-e",
+      "name": "East window",
+      "a": [
+        5.4,
+        0.7
+      ],
+      "b": [
+        5.4,
+        1.6
+      ],
+      "z0": 0.5,
+      "z1": 2.15,
+      "grid": [
+        2,
+        3
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "id": "fireplace",
+      "name": "Fireplace and mantel",
+      "kind": "fireplace",
+      "wall": "north",
+      "x0": 2.2,
+      "x1": 3.2,
+      "y": 3.8,
+      "z0": 0,
+      "z1": 1.25,
+      "depth": 0.12,
+      "color": "#f1efe9",
+      "insert": "wood",
+      "fire": {
+        "lumens": 1000,
+        "kelvin": 1900
+      }
+    }
+  ],
+  "rules": [
+    {
+      "kind": "keepClear",
+      "name": "Hearth",
+      "rect": [
+        2.1,
+        3.35,
+        3.3,
+        3.8
+      ],
+      "maxZ": 0.3,
+      "message": "Keep the hearth in front of the fireplace clear"
+    },
+    {
+      "kind": "keepClear",
+      "name": "Dining opening",
+      "rect": [
+        4.9,
+        2.55,
+        5.4,
+        3.6
+      ],
+      "message": "Keep the way into the dining room clear"
+    }
+  ],
+  "cameras": {
+    "toward_dining": {
+      "eye": [
+        0.25,
+        2.55,
+        1.65
+      ],
+      "target": [
+        5.2,
+        2.3,
+        0.95
+      ],
+      "lens": 22
+    },
+    "fireplace": {
+      "eye": [
+        2.7,
+        0.35,
+        1.6
+      ],
+      "target": [
+        2.7,
+        4.0,
+        1.0
+      ],
+      "lens": 18
+    },
+    "toward_windows": {
+      "eye": [
+        3.9,
+        3.5,
+        1.65
+      ],
+      "target": [
+        1.8,
+        0.0,
+        1.1
+      ],
+      "lens": 18
+    },
+    "reading_corner": {
+      "eye": [
+        4.9,
+        3.3,
+        1.5
+      ],
+      "target": [
+        0.6,
+        2.2,
+        0.8
+      ],
+      "lens": 22
+    }
+  },
+  "materials": {
+    "wall": {
+      "hex": "#D8D2C6",
+      "roughness": 0.6,
+      "note": "A warm greige, eggshell (made up)"
+    },
+    "ceiling": {
+      "hex": "#F4F3EF",
+      "roughness": 0.9
+    },
+    "trim": {
+      "hex": "#F2F1EC",
+      "roughness": 0.35
+    },
+    "baseboard": {
+      "hex": "#F2F1EC",
+      "roughness": 0.35
+    },
+    "floor": {
+      "texture": "laminate_floor_02",
+      "scale": 0.62,
+      "hex": "#B58A5C",
+      "coat": 0.15
+    }
+  },
+  "casings": true,
+  "lights": {
+    "recessed": [
+      [
+        1.3,
+        0.95
+      ],
+      [
+        4.1,
+        0.95
+      ],
+      [
+        1.3,
+        3.0
+      ],
+      [
+        4.1,
+        3.0
+      ]
+    ],
+    "note": "Four LED downlights on one dimmer, clear of the beam.",
+    "downlights": {
+      "lumens": 700,
+      "kelvin": 2700,
+      "beam": 60
+    }
+  },
+  "daylight": {
+    "sky": "overcast"
+  },
+  "scenes": {
+    "day": {
+      "base": "day",
+      "label": "Daylight only"
+    },
+    "night": {
+      "base": "night",
+      "fire": true,
+      "label": "Night with every light on, and the fire"
+    },
+    "evening": {
+      "base": "evening",
+      "downlights": 0.0,
+      "lamps": true,
+      "fire": true,
+      "label": "Evening: lamps and the fire, downlights off"
+    },
+    "downlights-only": {
+      "base": "night",
+      "downlights": 1.0,
+      "lamps": false,
+      "fire": false,
+      "label": "Night with only the downlights, at full",
+      "ceiling": 0.0
+    },
+    "sunny-morning": {
+      "base": "day",
+      "sky": "clear",
+      "time": {
+        "month": 10,
+        "day": 15,
+        "hour": 10
+      },
+      "label": "Clear sky, a mid-October morning: sun through the south and east windows"
+    }
+  },
+  "flow": {
+    "paths": [
+      {
+        "name": "Hall door to the dining room (behind the sofa)",
+        "points": [
+          [
+            0.15,
+            0.88
+          ],
+          [
+            0.8,
+            0.42
+          ],
+          [
+            4.3,
+            0.42
+          ],
+          [
+            4.85,
+            1.1
+          ],
+          [
+            4.95,
+            2.2
+          ],
+          [
+            5.3,
+            3.05
+          ]
+        ],
+        "min": 0.76
+      },
+      {
+        "name": "Into the seating (east)",
+        "points": [
+          [
+            4.95,
+            2.2
+          ],
+          [
+            3.7,
+            2.0
+          ]
+        ],
+        "min": 0.76
+      }
+    ],
+    "distances": [
+      {
+        "a": "sofa",
+        "b": "coffee",
+        "label": "Sofa to coffee table"
+      },
+      {
+        "a": "chair-w",
+        "b": "chair-e",
+        "label": "Chair to chair"
+      }
+    ]
+  },
+  "site": {
+    "latitude": 45,
+    "northDeg": 0
+  }
+}

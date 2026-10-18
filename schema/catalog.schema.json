@@ -1,0 +1,419 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "catalog.schema.json",
+  "title": "catalog.json",
+  "description": "Item types: real dimensions (metres) plus how to draw them: a core model (box, parts, glb, mat, roundRug) or a household builder (builders/*.py and .js next to rooms/). Catalogs merge in order: the engine's shared/catalog.json (generic entries), the household's catalog.json, the room's catalog.json; later entries win.",
+  "type": "object",
+  "required": [
+    "items"
+  ],
+  "properties": {
+    "note": {
+      "type": "string"
+    },
+    "items": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "model",
+          "w",
+          "d",
+          "h"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string",
+            "description": "how to draw it: box, parts (primitives in `parts`), glb (a model `file`), mat / roundRug (flat rugs), or the name of a household or room builder (builders/<name>.py and .js)"
+          },
+          "w": {
+            "type": "number"
+          },
+          "d": {
+            "type": "number"
+          },
+          "h": {
+            "type": "number"
+          },
+          "color": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "clearance": {
+            "type": "object",
+            "properties": {
+              "front": {
+                "type": "number"
+              },
+              "back": {
+                "type": "number"
+              },
+              "left": {
+                "type": "number"
+              },
+              "right": {
+                "type": "number"
+              }
+            }
+          },
+          "mount": {
+            "enum": [
+              "wall",
+              "floor"
+            ]
+          },
+          "z": {
+            "type": "number"
+          },
+          "ceiling": {
+            "type": "number"
+          },
+          "baseW": {
+            "type": "number"
+          },
+          "baseD": {
+            "type": "number"
+          },
+          "floorLayer": {
+            "type": "boolean"
+          },
+          "scanVisible": {
+            "type": "boolean"
+          },
+          "channelHeight": {
+            "type": "number"
+          },
+          "texture": {
+            "type": "string",
+            "description": "An image for a mat or rug (path in the room or household folder), e.g. one recovered with rug_from_scan.py."
+          },
+          "kneeSpace": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "const": "apron"
+              }
+            ],
+            "description": "clear height under a table top (m), or \"apron\": for a table without drawers, just under its apron (`apron` deep, default 0.1, below a `top` thick top, default 0.04); chairs whose seatH fits under it may be pushed in"
+          },
+          "seatH": {
+            "type": "number",
+            "description": "seat height (m); with a table's kneeSpace, lets a chair tuck under the table"
+          },
+          "group": {
+            "type": "string",
+            "description": "pieces of one unit share a group: no clearance warnings between them"
+          },
+          "interiorLight": {
+            "type": "object",
+            "description": "A lamp inside the item (a lit cabinet's or an enclosure's), on with the lamps unless the scene switches the item off; hidden from the camera. Defaults 800 lm, 2700 K (assumed).",
+            "properties": {
+              "lumens": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Light output in lumens (the bulb's or fixture's rated output)."
+              },
+              "kelvin": {
+                "type": "number",
+                "minimum": 1000,
+                "maximum": 20000,
+                "description": "Colour temperature (K); default: the room's lights.kelvin, else 2700 (assumed)."
+              },
+              "z": {
+                "type": "number",
+                "description": "height of the light above the floor (m)"
+              },
+              "size": {
+                "type": "number",
+                "description": "soft-shadow radius (m)"
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          },
+          "light": {
+            "type": "object",
+            "description": "The item's light, in real units (tools/photometry.py): without it the builder's default is used and listed as ASSUMED.",
+            "properties": {
+              "lumens": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Total for the item (all its bulbs), e.g. about 800 for one 60 W-equivalent LED bulb."
+              },
+              "kelvin": {
+                "type": "number",
+                "minimum": 1000,
+                "maximum": 20000,
+                "description": "Colour temperature (K); default: the room's lights.kelvin, else 2700 (assumed)."
+              },
+              "dimToWarm": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "description": "[kelvin at full, kelvin at the bottom] for a dim-to-warm bulb, e.g. [2700, 2200]."
+              },
+              "dimCurve": {
+                "enum": [
+                  "square",
+                  "linear",
+                  "log"
+                ],
+                "description": "How a dimmer setting maps to light output: square (most wall and plug-in dimmers, default: 20% gives 4%), linear, log (DALI)."
+              },
+              "beam": {
+                "type": "number",
+                "description": "Full beam angle (degrees) for builders with spot lights."
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          },
+          "layer": {
+            "enum": [
+              "lamp",
+              "ceiling"
+            ],
+            "description": "Which switch the item's light follows: lamp (default; the scene's lamps) or ceiling (pendants, chandeliers, flush lights, panels, tube lights, fan lights; the scene's ceiling setting)."
+          },
+          "hang": {
+            "enum": [
+              "ceiling"
+            ],
+            "description": "hangs from the ceiling (a pendant, a ceiling fan): without its own `ceiling`, the item's top sits at the room's ceiling height over it"
+          },
+          "parts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/part"
+            },
+            "description": "model parts: the primitives that draw the item (docs/MODELING.md)"
+          },
+          "materials": {
+            "type": "object",
+            "description": "model parts: named materials the parts use",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "hex": {
+                  "type": "string",
+                  "pattern": "^#[0-9A-Fa-f]{6}$"
+                },
+                "kind": {
+                  "enum": [
+                    "paint",
+                    "wood",
+                    "fabric",
+                    "metal",
+                    "glass",
+                    "shade",
+                    "glow"
+                  ],
+                  "description": "default paint; shade = translucent fabric lampshade, glow = lit paper (on with the lamps)"
+                },
+                "rough": {
+                  "type": "number",
+                  "description": "roughness 0 (mirror) to 1 (matte)"
+                },
+                "metal": {
+                  "type": "number"
+                },
+                "coat": {
+                  "type": "number",
+                  "description": "clear coat 0-1 (polished wood, lacquer)"
+                }
+              }
+            }
+          },
+          "file": {
+            "type": "string",
+            "description": "model glb: the model file, relative to the room folder or the household folder (e.g. models/chair.glb)"
+          },
+          "fit": {
+            "enum": [
+              "scale",
+              "stretch",
+              "none"
+            ],
+            "description": "model glb: scale uniformly to fit inside w x d x h (default), stretch each axis to it, or keep the file's size"
+          },
+          "rotate": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3,
+            "description": "model glb: degrees about x, y, z applied before fitting (turn the front to -y, stand it up)"
+          },
+          "partsSize": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3,
+            "description": "model parts: the w, d, h the parts were drawn at (default: the catalog entry's); an item resized in a layout stretches to its own w, d, h"
+          },
+          "textureGain": {
+            "type": "number",
+            "description": "Brightens a scanned texture (renders only)."
+          },
+          "textureSat": {
+            "type": "number",
+            "description": "Saturates a scanned texture (renders only)."
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "part": {
+      "type": "object",
+      "description": "One primitive of a `parts` model, in item-local metres: x to the right as you face the item's front, y toward its back, z up, origin at the footprint centre on the floor.",
+      "properties": {
+        "shape": {
+          "enum": [
+            "box",
+            "cylinder",
+            "cone",
+            "sphere",
+            "lathe",
+            "extrude"
+          ],
+          "description": "default box"
+        },
+        "at": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "centre (box, cylinder, cone, sphere) or base point (lathe, extrude)"
+        },
+        "size": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "box: [w, d, h]"
+        },
+        "r": {
+          "type": "number",
+          "description": "cylinder, sphere radius"
+        },
+        "r0": {
+          "type": "number",
+          "description": "cone: bottom radius"
+        },
+        "r1": {
+          "type": "number",
+          "description": "cone: top radius"
+        },
+        "h": {
+          "type": "number",
+          "description": "cylinder, cone, extrude height"
+        },
+        "axis": {
+          "enum": [
+            "x",
+            "y",
+            "z"
+          ],
+          "description": "cylinder or cone axis (default z, upright)"
+        },
+        "scale": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "sphere: stretch along x, y, z (an ellipsoid: a cushion, a pouf, a canopy)"
+        },
+        "profile": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "description": "lathe: [radius, height] pairs from the bottom up, turned about the vertical axis (legs, vases, lamp bases)"
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "description": "extrude: a plan outline [[x, y], ...] around `at`, extruded up by h (shaped tops, seats)"
+        },
+        "rot": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "degrees about x, then y, then z"
+        },
+        "mirror": {
+          "enum": [
+            "x",
+            "y",
+            "xy"
+          ],
+          "description": "also draw the part mirrored across the item's centre line(s): four legs from one"
+        },
+        "material": {
+          "type": "string",
+          "description": "a name in the item's `materials`, or \"#rrggbb\"; default: the item's color"
+        },
+        "seg": {
+          "type": "integer",
+          "description": "segments around round shapes (default 32)"
+        },
+        "bevel": {
+          "type": "number",
+          "description": "box edge bevel (m, default 0.004)"
+        },
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "description": "what the part is for other tools, e.g. \"shade\" (the part a lamp's light sits in)"
+        },
+        "open": {
+          "type": "boolean",
+          "description": "cylinder, cone, lathe: leave the ends open (a lampshade, a tube)"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+[
+  {
+    "layout": "as-scanned",
+    "lighting": "day,evening",
+    "tag": "today"
+  },
+  {
+    "layout": "proposal",
+    "lighting": "day,evening",
+    "tag": "proposal",
+    "meterLayout": "as-scanned"
+  }
+]

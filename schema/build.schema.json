@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "build.schema.json",
+  "title": "report/build.json",
+  "type": "object",
+  "properties": {
+    "images": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "copy": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

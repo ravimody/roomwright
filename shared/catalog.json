@@ -1,0 +1,24 @@
+{
+  "note": "Generic entries only: the engine ships no furniture library. A household's own item types go in its catalog.json (next to rooms/) and each room's catalog.json; later entries win. Dimensions in meters. w = width (left-right as you face the item's front), d = depth (front-back), h = height. mount 'wall' items snap to walls; z = bottom height. clearance = free space needed on each side to use the item.",
+  "items": {
+    "rug": {
+      "name": "Rug",
+      "category": "Decor",
+      "model": "mat",
+      "w": 1.8,
+      "d": 1.2,
+      "h": 0.01,
+      "color": "#a59c8c",
+      "floorLayer": true
+    },
+    "generic_box": {
+      "name": "Generic box",
+      "category": "Other",
+      "model": "box",
+      "w": 0.6,
+      "d": 0.6,
+      "h": 0.6,
+      "color": "#888888"
+    }
+  }
+}

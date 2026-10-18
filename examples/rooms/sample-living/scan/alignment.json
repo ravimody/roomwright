@@ -1,0 +1,9 @@
+{
+  "rotationYDeg": -12.05,
+  "translate": [
+    -1.009918,
+    1.151534,
+    -1.023144
+  ],
+  "note": "glTF (Y-up) transform taking scan_raw.glb to scan_aligned.glb: rotate about +Y, then translate."
+}

@@ -1,0 +1,1120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "room.schema.json",
+  "title": "room.json",
+  "description": "A room's measured shell, lighting, cameras and rules. Room frame: x plan east, y plan north (labels; true north is site.northDeg), z up, metres, origin at the plan-SW interior corner; outline counter-clockwise.",
+  "type": "object",
+  "required": [
+    "name",
+    "outline",
+    "ceiling",
+    "doors",
+    "windows",
+    "cameras"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Display name (editor, reports)."
+    },
+    "units": {
+      "enum": [
+        "m",
+        "meters"
+      ],
+      "description": "Always metres."
+    },
+    "frame": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "The room's style in the person's own words, e.g. \"bright Japandi with floor seating\" or \"maximalist, full of collected art\"."
+        },
+        "palette": {},
+        "references": {
+          "type": "array"
+        }
+      },
+      "description": "The room's style, read before proposing anything (style is per room)."
+    },
+    "sourcing": {
+      "type": "object",
+      "properties": {
+        "furniture": {
+          "enum": [
+            "new",
+            "secondhand",
+            "vintage-antique",
+            "custom",
+            "existing",
+            "mix"
+          ],
+          "description": "new (product links), secondhand or vintage-antique (a spec card to search with: size and tolerance, materials, details, red flags), custom (a maker's spec for a local carpenter, joiner or upholsterer), existing (re-arrange what's there), or mix."
+        },
+        "practical": {
+          "enum": [
+            "new",
+            "secondhand",
+            "vintage-antique",
+            "custom",
+            "existing",
+            "mix"
+          ]
+        },
+        "lamps": {
+          "enum": [
+            "new",
+            "secondhand",
+            "vintage-antique",
+            "custom",
+            "existing",
+            "mix"
+          ]
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "description": "How furniture is bought for this room."
+    },
+    "outline": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        },
+        "minItems": 2,
+        "maxItems": 2
+      },
+      "minItems": 3,
+      "description": "Interior wall line, counter-clockwise, [x, y] metres; origin at the SW interior corner."
+    },
+    "wallHeight": {
+      "type": "number",
+      "description": "Default wall height (the ceiling's `top` usually matches)."
+    },
+    "wallThickness": {
+      "type": "number",
+      "description": "Wall prism thickness drawn outside the outline."
+    },
+    "casings": {
+      "type": "boolean",
+      "description": "Door and window casings and window sills, in the trim colour (materials.trim)."
+    },
+    "beyondDepth": {
+      "type": "number",
+      "description": "Depth of the stand-in rooms drawn beyond openings."
+    },
+    "scan": {
+      "type": "object",
+      "properties": {
+        "file": {
+          "type": "string"
+        },
+        "rotationYDeg": {
+          "type": "number"
+        },
+        "position": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "alignedOrigin": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "The room origin's position inside scan/scan_aligned.glb (Blender XY)."
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "description": "Where the scan sits relative to the room frame (written by map_room.py; adjust when moving the origin)."
+    },
+    "ceiling": {
+      "type": "object",
+      "required": [
+        "top"
+      ],
+      "properties": {
+        "top": {
+          "type": "number",
+          "description": "Main ceiling height (m)."
+        },
+        "note": {
+          "type": "string"
+        },
+        "levelsFound": {},
+        "topLabel": {
+          "type": "object"
+        },
+        "downstands": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "z"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "z": {
+                "type": "number",
+                "description": "Underside height (m); for a slope, the flat part's height."
+              },
+              "rect": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 4,
+                "maxItems": 4,
+                "description": "[x0, y0, x1, y1] footprint."
+              },
+              "poly": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                "minItems": 3,
+                "description": "Footprint polygon, for non-rectangular areas."
+              },
+              "note": {
+                "type": "string"
+              },
+              "slope": {
+                "type": "object",
+                "required": [
+                  "axis",
+                  "from",
+                  "to",
+                  "zFrom",
+                  "zTo"
+                ],
+                "properties": {
+                  "axis": {
+                    "enum": [
+                      "x",
+                      "y"
+                    ]
+                  },
+                  "from": {
+                    "type": "number"
+                  },
+                  "to": {
+                    "type": "number"
+                  },
+                  "zFrom": {
+                    "type": "number"
+                  },
+                  "zTo": {
+                    "type": "number"
+                  }
+                },
+                "description": "A sloped ceiling: height runs from zFrom at `from` to zTo at `to` along `axis`."
+              }
+            },
+            "oneOf": [
+              {
+                "required": [
+                  "rect"
+                ]
+              },
+              {
+                "required": [
+                  "poly"
+                ]
+              }
+            ]
+          },
+          "description": "Soffits, beams and lower or sloped ceiling areas."
+        }
+      }
+    },
+    "doors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "a",
+          "b",
+          "height"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "a": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "One jamb [x, y]."
+          },
+          "b": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "The other jamb [x, y]."
+          },
+          "height": {
+            "type": "number",
+            "description": "Head height (m)."
+          },
+          "swing": {
+            "enum": [
+              "in",
+              "out"
+            ],
+            "description": "Which side the leaf opens to (ask the owner; scans can't tell)."
+          },
+          "hinge": {
+            "enum": [
+              "a",
+              "b"
+            ],
+            "description": "Jamb the leaf is hinged on."
+          },
+          "leaves": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2,
+            "description": "2 for a pair hinged at both jambs."
+          },
+          "style": {
+            "enum": [
+              "door",
+              "opening",
+              "glass",
+              "sliding"
+            ],
+            "description": "door (slab), opening (cased, no leaf), glass, sliding."
+          },
+          "mullions": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "description": "Sliding doors: positions along the opening where panels meet."
+          },
+          "handlesAt": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "description": "Sliding doors: handle positions."
+          },
+          "beyond": {},
+          "grid": {},
+          "note": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Doors and openings; a and b must lie on one outline edge."
+    },
+    "windows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "a",
+          "b",
+          "z0",
+          "z1"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "a": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "b": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "z0": {
+            "type": "number",
+            "description": "Sill height (m)."
+          },
+          "z1": {
+            "type": "number",
+            "description": "Head height (m)."
+          },
+          "note": {
+            "type": "string"
+          },
+          "grid": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "[cols, rows] of grilles."
+          }
+        }
+      }
+    },
+    "fixtures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "fireplace",
+              "niche",
+              "panel",
+              "art",
+              "shelves"
+            ],
+            "description": "Builder: fireplace, niche, panel, art or shelves; omit for a plain box (a TV, a panel box)."
+          },
+          "wall": {
+            "enum": [
+              "north",
+              "south",
+              "east",
+              "west"
+            ],
+            "description": "north/south walls take x0, x1, y; east/west take y0, y1, x."
+          },
+          "x0": {
+            "type": "number"
+          },
+          "x1": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "y0": {
+            "type": "number"
+          },
+          "y1": {
+            "type": "number"
+          },
+          "x": {
+            "type": "number"
+          },
+          "z0": {
+            "type": "number"
+          },
+          "z1": {
+            "type": "number"
+          },
+          "depth": {
+            "type": "number",
+            "description": "How far it stands out from the wall (m)."
+          },
+          "color": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "note": {
+            "type": "string"
+          },
+          "insert": {
+            "enum": [
+              "gas",
+              "wood",
+              "none"
+            ],
+            "description": "Fireplace firebox: none (default: an empty firebox), wood (open firebox) or gas (frame, louvre and glass over ceramic logs)."
+          },
+          "fire": {
+            "type": "object",
+            "description": "A fireplace's light when lit: defaults gas 300 lm, wood 1000 lm, 1900 K (assumed).",
+            "properties": {
+              "lumens": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Light output in lumens (the bulb's or fixture's rated output)."
+              },
+              "kelvin": {
+                "type": "number",
+                "minimum": 1000,
+                "maximum": 20000,
+                "description": "Colour temperature (K); default 1900 (a flame; assumed)."
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          },
+          "screen": {
+            "type": "object",
+            "description": "A screen on the fixture's front face (a TV), lit in scenes that list it in `screens`.",
+            "properties": {
+              "luminance": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Average picture luminance, cd/m² (default 150, assumed)."
+              },
+              "hex": {
+                "type": "string",
+                "pattern": "^#[0-9A-Fa-f]{6}$",
+                "description": "Average picture colour (default white)."
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          },
+          "lights": {
+            "type": "object",
+            "properties": {
+              "lumens": {
+                "type": "number",
+                "minimum": 0,
+                "description": "All of the fixture's accent lights together."
+              },
+              "kelvin": {
+                "type": "number",
+                "minimum": 1000,
+                "maximum": 20000,
+                "description": "Colour temperature (K); default: the room's lights.kelvin, else 2700 (assumed)."
+              },
+              "note": {
+                "type": "string"
+              }
+            },
+            "description": "Niche: puck lights under the shelves, on in scenes with accents."
+          },
+          "pictureLight": {
+            "type": "object",
+            "properties": {
+              "lumens": {
+                "type": "number",
+                "minimum": 0,
+                "description": "All of the fixture's accent lights together."
+              },
+              "kelvin": {
+                "type": "number",
+                "minimum": 1000,
+                "maximum": 20000,
+                "description": "Colour temperature (K); default: the room's lights.kelvin, else 2700 (assumed)."
+              },
+              "note": {
+                "type": "string"
+              }
+            },
+            "description": "Art: a picture light over the frame, on in scenes with accents."
+          }
+        }
+      },
+      "description": "Built-ins that never move: fireplaces, niches, panels, art, shelves, TVs, electrical panels."
+    },
+    "materials": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "hex": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$",
+            "description": "sRGB colour (a paint chip or sampled from a photo); for the floor, the target average colour of its texture, or the floor's colour when texture is \"none\"."
+          },
+          "color": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0
+            },
+            "minItems": 3,
+            "maxItems": 3,
+            "description": "Linear RGB, instead of hex."
+          },
+          "roughness": {
+            "type": "number"
+          },
+          "texture": {
+            "type": "string",
+            "description": "Floor: a texture name in shared/pbr (e.g. laminate_floor_02 for wood), or \"none\" for a plain colour (tile, stone, terrazzo, concrete, carpet, tatami); wall: a wallpaper image path in the room."
+          },
+          "note": {
+            "type": "string"
+          },
+          "scale": {
+            "type": "number",
+            "description": "Floor: texture repeats per metre."
+          },
+          "rotationDeg": {
+            "type": "number",
+            "description": "Floor: texture rotation, degrees."
+          },
+          "coat": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Clear coat 0–1 (polished or lacquered floors)."
+          },
+          "width": {
+            "type": "number",
+            "description": "Wall: metres per wallpaper repeat."
+          },
+          "wainscot": {
+            "type": "object",
+            "description": "Wall: painted wainscot below the wallpaper.",
+            "properties": {
+              "height": {
+                "type": "number"
+              },
+              "hex": {
+                "type": "string",
+                "pattern": "^#[0-9A-Fa-f]{6}$"
+              }
+            }
+          },
+          "z": {
+            "type": "number",
+            "description": "chairRail: height of the rail (m)."
+          },
+          "height": {
+            "type": "number",
+            "description": "crown: moulding height (m)."
+          },
+          "depth": {
+            "type": "number",
+            "description": "crown: moulding projection from the wall (m)."
+          }
+        }
+      },
+      "description": "Shell materials by part (wall, ceiling, trim, baseboard/skirting, floor, chairRail/dado rail, crown/cornice); defaults are neutral white paint and a mid-tone wood floor."
+    },
+    "lights": {
+      "type": "object",
+      "properties": {
+        "kelvin": {
+          "type": "number",
+          "minimum": 1000,
+          "maximum": 20000,
+          "description": "The room's usual bulb colour (K), for lights that don't give their own: e.g. 2700 for warm white, 4000 neutral, 6500 cool daylight. Without it, 2700 K is assumed and listed as ASSUMED."
+        },
+        "recessed": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              {
+                "type": "object",
+                "required": [
+                  "x",
+                  "y"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "lumens": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Light output in lumens (the bulb's or fixture's rated output)."
+                  },
+                  "kelvin": {
+                    "type": "number",
+                    "minimum": 1000,
+                    "maximum": 20000,
+                    "description": "Colour temperature (K); default: the room's lights.kelvin, else 2700 (assumed)."
+                  },
+                  "beam": {
+                    "type": "number"
+                  }
+                }
+              }
+            ]
+          },
+          "description": "Recessed downlight positions (cans, pot lights, spotlights) [x, y], or {x, y, lumens, kelvin, beam} for one unlike the others."
+        },
+        "note": {
+          "type": "string"
+        },
+        "cans": {
+          "type": "object",
+          "description": "The recessed downlights' fixture: defaults 700 lm, 2700 K, 110° beam (assumed: a common LED downlight; give the real one). Same as `downlights`.",
+          "properties": {
+            "lumens": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Per downlight."
+            },
+            "kelvin": {
+              "type": "number",
+              "minimum": 1000,
+              "maximum": 20000,
+              "description": "Colour temperature (K); default: the room's lights.kelvin, else 2700 (assumed)."
+            },
+            "beam": {
+              "type": "number",
+              "description": "Full beam angle, degrees."
+            },
+            "dimCurve": {
+              "enum": [
+                "square",
+                "linear",
+                "log"
+              ],
+              "description": "How a dimmer setting maps to light output: square (most wall and plug-in dimmers, default: 20% gives 4%), linear, log (DALI)."
+            },
+            "dimToWarm": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "[kelvin at full, kelvin at the bottom] for a dim-to-warm bulb, e.g. [2700, 2200]."
+            }
+          }
+        },
+        "downlights": {
+          "type": "object",
+          "description": "The recessed downlights' fixture (also written `cans`): defaults 700 lm, 2700 K, 110° beam (assumed: a common LED downlight; give the real one).",
+          "properties": {
+            "lumens": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Per downlight."
+            },
+            "kelvin": {
+              "type": "number",
+              "minimum": 1000,
+              "maximum": 20000,
+              "description": "Colour temperature (K); default: the room's lights.kelvin, else 2700 (assumed)."
+            },
+            "beam": {
+              "type": "number",
+              "description": "Full beam angle, degrees."
+            },
+            "dimCurve": {
+              "enum": [
+                "square",
+                "linear",
+                "log"
+              ],
+              "description": "How a dimmer setting maps to light output: square (most wall and plug-in dimmers, default: 20% gives 4%), linear, log (DALI)."
+            },
+            "dimToWarm": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "[kelvin at full, kelvin at the bottom] for a dim-to-warm bulb, e.g. [2700, 2200]."
+            }
+          }
+        }
+      }
+    },
+    "daylight": {
+      "type": "object",
+      "description": "Daylight for day and standard scenes: a sky (and sun) outside the windows and glazed doors.",
+      "properties": {
+        "sky": {
+          "enum": [
+            "overcast",
+            "clear"
+          ],
+          "description": "overcast (default; CIE overcast sky) or clear (sun + sky: needs site.latitude and a time)."
+        },
+        "illuminance": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Horizontal sky illuminance outside, lux (default 10000 for overcast without a site and time)."
+        },
+        "scale": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Share of that light reaching the windows (trees, balconies or buildings opposite, shutters, awnings, window wells); fit with light_match.py. Default 1."
+        },
+        "time": {
+          "type": "object",
+          "description": "Local solar time for the sun: month, day, hour (12 = solar noon).",
+          "properties": {
+            "month": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 12
+            },
+            "day": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 31
+            },
+            "hour": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 24
+            }
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "scenes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "base": {
+            "enum": [
+              "day",
+              "night",
+              "evening",
+              "standard"
+            ],
+            "description": "day (daylight only, lights off), night (no daylight; downlights, ceiling-layer items, lamps and accents on), evening (no daylight; downlights and ceiling-layer items off, lamps and accents on: one common setup), standard (daylight, downlights, ceiling items and lamps; accents off). The fire and screens are off in every base unless the scene sets fire or screens."
+          },
+          "label": {
+            "type": "string"
+          },
+          "cans": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Downlight dimmer setting 0–1, as on the dimmer (the dimCurve turns it into light output). Same as `downlights`."
+          },
+          "downlights": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Downlight dimmer setting 0–1, as on the dimmer (the dimCurve turns it into light output). Also written `cans`."
+          },
+          "ceiling": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Dimmer setting 0–1 for items with \"layer\": \"ceiling\" (pendants, chandeliers, flush lights, panels, tube lights, fan lights); defaults to the downlights setting."
+          },
+          "lamps": {
+            "type": "boolean",
+            "description": "Lamps and candles on."
+          },
+          "accents": {
+            "type": "boolean"
+          },
+          "fire": {
+            "type": "boolean"
+          },
+          "lampsOff": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Layout item ids left off."
+          },
+          "lampDim": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "Item id → dimmer setting 0–1 (through the item's dimCurve; a dim-to-warm bulb also warms)."
+          },
+          "exposure": {
+            "oneOf": [
+              {
+                "type": "number"
+              },
+              {
+                "enum": [
+                  "auto",
+                  "photo"
+                ]
+              }
+            ],
+            "description": "auto (default: metered like a phone), photo (the camera's photo EXIF; else auto) or a fixed number of stops (to compare levels of one light)."
+          },
+          "whiteBalance": {
+            "oneOf": [
+              {
+                "type": "number"
+              },
+              {
+                "enum": [
+                  "auto"
+                ]
+              }
+            ],
+            "description": "auto (default: the lights' colour, partly neutralised) or kelvin."
+          },
+          "lampKelvin": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            },
+            "description": "Item id → colour temperature (K) of a tunable bulb in this scene."
+          },
+          "screens": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Fixture ids whose `screen` is on (a TV left on)."
+          },
+          "exposureBias": {
+            "type": "number",
+            "description": "Stops added to the exposure, like a phone's exposure compensation."
+          },
+          "sky": {
+            "enum": [
+              "overcast",
+              "clear"
+            ],
+            "description": "Overrides daylight.sky for this scene."
+          },
+          "time": {
+            "type": "object",
+            "description": "Local solar time for the sun: month, day, hour (12 = solar noon).",
+            "properties": {
+              "month": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 12
+              },
+              "day": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 31
+              },
+              "hour": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 24
+              }
+            }
+          }
+        }
+      },
+      "description": "Named lighting scenes for --lighting."
+    },
+    "cameras": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/camera"
+      },
+      "description": "Named render cameras (also used by geometry_check, scan_compare, color_match)."
+    },
+    "compareViews": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "eye",
+          "target"
+        ],
+        "properties": {
+          "lens": {
+            "type": "number",
+            "description": "Lens in mm (default 16, wide)."
+          },
+          "roll": {
+            "type": "number",
+            "description": "Degrees about the view axis, as for cameras."
+          }
+        }
+      },
+      "description": "Extra cameras for blender_scene.py compare."
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "kind"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "keepClear",
+              "maxDistance",
+              "minDistance"
+            ],
+            "description": "keepClear (rect, maxZ), maxDistance (itemType to a fixture), minDistance."
+          },
+          "level": {
+            "enum": [
+              "error",
+              "warn"
+            ]
+          }
+        }
+      },
+      "description": "Room rules the layout checker enforces."
+    },
+    "flow": {
+      "$ref": "#/$defs/flow",
+      "description": "Walking paths and seating distances for flow_plan.py."
+    },
+    "site": {
+      "type": "object",
+      "description": "Where the room faces, for the sun.",
+      "properties": {
+        "latitude": {
+          "type": "integer",
+          "minimum": -90,
+          "maximum": 90,
+          "description": "Whole degrees only (privacy)."
+        },
+        "northDeg": {
+          "type": "number",
+          "description": "Compass bearing the room's +y axis points to (0 = +y is true north, 90 = east)."
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "camera": {
+      "type": "object",
+      "required": [
+        "eye",
+        "target",
+        "lens"
+      ],
+      "properties": {
+        "eye": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "target": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "lens": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Focal length (mm, 36 mm sensor width)."
+        },
+        "roll": {
+          "type": "number",
+          "description": "Degrees about the view axis (photo-matched cameras)."
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "flow": {
+      "type": "object",
+      "properties": {
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "points"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "min": {
+                "type": "number"
+              },
+              "points": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                "minItems": 2
+              }
+            }
+          }
+        },
+        "distances": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "a",
+              "b"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
