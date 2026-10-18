@@ -1,0 +1,22 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false  # tests read JSON and code only; scans and renders stay in LFS
+      - uses: astral-sh/setup-uv@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Lint
+        run: uvx ruff check tools server.py tests
+      - name: Tests (schemas, every room's data, layout checker, builder parity)
+        run: uv run pytest -q
+      - name: Validate every room
+        run: uv run tools/validate_room.py --all --rooms-dir examples/rooms

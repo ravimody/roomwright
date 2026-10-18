@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "render_sets.schema.json",
+  "title": "render_sets/<name>.json",
+  "description": "Photoreal render sets for tools/render_batch.py (local) and tools/render_modal.py --batch (cloud).",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "layout"
+    ],
+    "properties": {
+      "room": {
+        "type": "string"
+      },
+      "layout": {
+        "type": "string"
+      },
+      "lighting": {
+        "type": "string",
+        "description": "Comma-separated presets (day, night, evening, standard) or room.json scene names; default standard."
+      },
+      "views": {
+        "type": "string"
+      },
+      "tag": {
+        "type": "string"
+      },
+      "samples": {
+        "type": "integer"
+      },
+      "res": {
+        "type": "string",
+        "pattern": "^[0-9]+x[0-9]+$"
+      },
+      "meterLayout": {
+        "type": "string",
+        "description": "Meter the auto exposure on this layout (e.g. today's) so a proposal renders at the same exposure."
+      }
+    }
+  }
+}

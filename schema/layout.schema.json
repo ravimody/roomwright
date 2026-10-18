@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "layout.schema.json",
+  "title": "layouts/<name>.json",
+  "type": "object",
+  "required": [
+    "name",
+    "items"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "x",
+          "y"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "A catalog id."
+          },
+          "x": {
+            "type": "number",
+            "description": "Centre x (m)."
+          },
+          "y": {
+            "type": "number",
+            "description": "Centre y (m)."
+          },
+          "rot": {
+            "type": "number",
+            "description": "Degrees counter-clockwise; front faces -y at 0."
+          },
+          "z": {
+            "type": "number",
+            "description": "Bottom height (wall-mounted or stacked items)."
+          },
+          "label": {
+            "type": "string"
+          },
+          "channel": {
+            "enum": [
+              "FL",
+              "FR",
+              "C",
+              "SL",
+              "SR",
+              "SBL",
+              "SBR",
+              "SW1",
+              "SW2",
+              "SW"
+            ],
+            "description": "Speaker channel for speaker_plan.py."
+          },
+          "scanVisible": {
+            "type": "boolean",
+            "description": "false when this instance didn't scan (geometry_check skips it)."
+          },
+          "on": {
+            "type": "string",
+            "description": "id of the item this one sits on or in (a vase on a shelf, towels in a basket): the pair is not an overlap"
+          },
+          "group": {
+            "type": "string",
+            "description": "pieces of one unit (sectional pieces, a desk and its return): no clearance warnings between them"
+          }
+        }
+      },
+      "description": "Placed items; any catalog key can be overridden per item."
+    },
+    "listening": {
+      "type": "object",
+      "required": [
+        "x",
+        "y"
+      ],
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "ear": {
+          "type": "number"
+        },
+        "facing": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "description": "Main seat for speaker_plan.py (ear height, facing direction)."
+    },
+    "flow": {
+      "type": "object",
+      "properties": {
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "points"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "min": {
+                "type": "number"
+              },
+              "points": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                "minItems": 2
+              }
+            }
+          }
+        },
+        "distances": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "a",
+              "b"
+            ]
+          }
+        }
+      },
+      "description": "Layout-specific flow paths (as in room.json)."
+    }
+  }
+}

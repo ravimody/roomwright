@@ -1,0 +1,131 @@
+{
+  "name": "Floor seating",
+  "description": "The same room set up for floor seating: a low table on a large rug with six floor cushions around it, the bookcases and lamps as they were.",
+  "items": [
+    {
+      "id": "side-w",
+      "type": "side_table",
+      "x": 1.3,
+      "y": 0.75,
+      "rot": 0
+    },
+    {
+      "id": "side-e",
+      "type": "side_table",
+      "x": 4.1,
+      "y": 0.75,
+      "rot": 0
+    },
+    {
+      "id": "lamp-w",
+      "type": "table_lamp",
+      "x": 1.3,
+      "y": 0.75,
+      "rot": 0,
+      "z": 0.56
+    },
+    {
+      "id": "lamp-e",
+      "type": "table_lamp",
+      "x": 4.1,
+      "y": 0.75,
+      "rot": 0,
+      "z": 0.56
+    },
+    {
+      "id": "books-w",
+      "type": "bookcase_36_styled",
+      "x": 1.05,
+      "y": 4.04,
+      "rot": 0
+    },
+    {
+      "id": "books-e",
+      "type": "bookcase_36_styled",
+      "x": 4.35,
+      "y": 4.04,
+      "rot": 0
+    },
+    {
+      "id": "floor-lamp",
+      "type": "floor_lamp",
+      "x": 0.45,
+      "y": 3.35,
+      "rot": 0
+    },
+    {
+      "id": "plant",
+      "type": "potted_plant",
+      "x": 4.98,
+      "y": 0.36,
+      "rot": 0
+    },
+    {
+      "id": "rug",
+      "type": "rug",
+      "x": 2.7,
+      "y": 2.2,
+      "rot": 0,
+      "w": 2.74,
+      "d": 2.13,
+      "color": "#a8957a"
+    },
+    {
+      "id": "table",
+      "type": "low_table",
+      "x": 2.7,
+      "y": 2.2,
+      "rot": 0
+    },
+    {
+      "id": "cushion-0",
+      "type": "floor_cushion",
+      "x": 2.35,
+      "y": 1.5,
+      "rot": 0
+    },
+    {
+      "id": "cushion-1",
+      "type": "floor_cushion",
+      "x": 3.05,
+      "y": 1.5,
+      "rot": 0
+    },
+    {
+      "id": "cushion-2",
+      "type": "floor_cushion",
+      "x": 2.35,
+      "y": 2.9,
+      "rot": 0
+    },
+    {
+      "id": "cushion-3",
+      "type": "floor_cushion",
+      "x": 3.05,
+      "y": 2.9,
+      "rot": 0
+    },
+    {
+      "id": "cushion-4",
+      "type": "floor_cushion",
+      "x": 1.8,
+      "y": 2.2,
+      "rot": 0
+    },
+    {
+      "id": "cushion-5",
+      "type": "floor_cushion",
+      "x": 3.6,
+      "y": 2.2,
+      "rot": 0
+    },
+    {
+      "id": "art",
+      "type": "art_canvas",
+      "x": 2.7,
+      "y": 3.78,
+      "z": 1.45,
+      "rot": 0
+    }
+  ]
+}
