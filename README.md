@@ -10,6 +10,13 @@ With an iPhone LiDAR scan, the model should be able to get within an inch or two
 
 <sub>A real room, rendered by Roomwright from its LiDAR scan. The room is measured to within an inch or two, every piece is modeled at its real size, and the lamps are lit from their bulbs' real brightness and color temperature. Roomwright helped lay out the space and recommended lamps and furniture to meet the preferences of the homeowner.</sub>
 
+## How it works
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/media/how-it-works-dark.png">
+  <img alt="You scan the room with a LiDAR phone, plus photos if you like, and say what you want. Your coding agent uses Roomwright to measure the room from the scan, try layouts, render them under the room's real lights, and verify the model against the scan and your photos, fixing and repeating. You get realistic renders and floor plans, and a report: the plan and why, options side by side, lighting and walkways, and what to buy, with links. Then you go back and forth: it asks questions and shows options; you react and ask for changes." src=".github/media/how-it-works.png">
+</picture>
+
 ## Get started
 
 1. **Scan the room** with an iPhone Pro or iPad Pro (they have a LiDAR sensor) and a free scanning app like [Scaniverse](https://scaniverse.com). Walk slowly and get the ceiling and every corner. Most Android phones don't have LiDAR; scanning apps there build the model from photos, which works but is less precise.
